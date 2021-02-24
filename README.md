@@ -45,7 +45,7 @@ git clone https://github.com/CASIA-IVA-Lab/TDKD.git
 ```
 
 ## Train
-Train the model using WIDER FACE:
+1. Train the model using WIDER FACE:
   ```Shell
   CUDA_VISIBLE_DEVICES=0 python train.py
   ```
