@@ -11,7 +11,7 @@ We propose a knowledge distillation method for the face detection task. This met
 ![image](https://github.com/CASIA-IVA-Lab/TDKD/blob/master/figure.jpg)
 
 
-## WiderFace Val Performance in single scale.
+## WiderFace Val Performance in single scale on RetinaFace.
 | Model | easy | medium | hard |
 |:-|:-:|:-:|:-:|
 | RetinaFace-Mobilenet0.25 (Student) | 87.1% | 85.7% | 79.2% |
