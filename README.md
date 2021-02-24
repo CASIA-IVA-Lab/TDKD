@@ -57,11 +57,11 @@ git clone https://github.com/CASIA-IVA-Lab/TDKD.git
   ```
 
 ## Evaluation
-1. Generate txt file
+1. Generate the txt files of the result.
 ```Shell
 python test_widerface.py
 ```
-2. Evaluate txt results. Demo come from [Here](https://github.com/wondervictor/WiderFace-Evaluation)
+2. Evaluate txt results. The scripts refer to [Here](https://github.com/wondervictor/WiderFace-Evaluation)
 ```Shell
 cd ./widerface_evaluate
 python setup.py build_ext --inplace
