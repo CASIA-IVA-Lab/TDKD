@@ -45,7 +45,7 @@ git clone https://github.com/CASIA-IVA-Lab/TDKD.git
 ```
 
 ## Train
-1. Train the model using WIDER FACE:
+1. In the code, we integrate the teacher model and the pre-trained model. So just run the following command to start distillation:
   ```Shell
   CUDA_VISIBLE_DEVICES=0 python train.py
   ```
