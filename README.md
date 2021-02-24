@@ -11,8 +11,8 @@ We propose a knowledge distillation method for the face detection task. This met
 ![image](https://github.com/CASIA-IVA-Lab/TDKD/blob/master/figure.jpg)
 
 
-## WiderFace Val Performance in single scale on RetinaFace.
-| Model | easy | medium | hard |
+## Evaluation Results of RetinaFace on WiderFace[val] dataset
+| Model | Easy | Medium | Hard |
 |:-|:-:|:-:|:-:|
 | RetinaFace-Mobilenet0.25 (Student) | 87.1% | 85.7% | 79.2% |
 | RetinaFace-Mobilenet0.25 (TDKD) | 88.9% | 87.5% | 81.5% |
@@ -69,11 +69,11 @@ python evaluation.py
 ```
 
 
-
 ## Reference
-
+TDKD refers to the following projects:
 - [Pytorch_Retinaface](https://github.com/biubug6/Pytorch_Retinaface)
 - [WIDER FACE](http://mmlab.ie.cuhk.edu.hk/projects/WIDERFace/WiderFace_Results.html)
+
 ```
 @inproceedings{LiangZZJTW20,
   title = {Task Decoupled Knowledge Distillation For Lightweight Face Detectors},
