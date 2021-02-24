@@ -16,12 +16,12 @@ Task Decoupled Knowledge Distillation For Lightweight Face Detectors (Accepted b
 ## Installation
 1. To folder where you want to download this repo
 ```shell
-'cd /your/own/path/'
+cd /your/own/path/
 ```
 
 2. Run
 ```Shell
-'git clone https://github.com/CASIA-IVA-Lab/TDKD.git'
+git clone https://github.com/CASIA-IVA-Lab/TDKD.git
 ```
 
 3. Install dependencies:
@@ -31,7 +31,7 @@ Task Decoupled Knowledge Distillation For Lightweight Face Detectors (Accepted b
 
 
 ## Data
-1. Download the [WIDERFACE](https://pan.baidu.com/s/1BB86wsXx_2B8eLbC8RrMPA) dataset. [password: qisa]
+1. Download the [WIDER FACE](https://pan.baidu.com/s/1BB86wsXx_2B8eLbC8RrMPA) dataset. [password: qisa]
 2. Organise the dataset directory as follows:
 
 ```Shell
@@ -67,7 +67,7 @@ python evaluation.py
 ## Reference
 
 - [Pytorch_Retinaface](https://github.com/biubug6/Pytorch_Retinaface)
-- [Wider Face](http://mmlab.ie.cuhk.edu.hk/projects/WIDERFace/WiderFace_Results.html)
+- [WIDER FACE](http://mmlab.ie.cuhk.edu.hk/projects/WIDERFace/WiderFace_Results.html)
 ```
 @inproceedings{LiangZZJTW20,
   title = {Task Decoupled Knowledge Distillation For Lightweight Face Detectors},
