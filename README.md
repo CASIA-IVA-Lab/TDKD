@@ -5,6 +5,9 @@
 Task Decoupled Knowledge Distillation For Lightweight Face Detectors (Accepted by ACM MM2020)
 
 
+## Abstract
+We propose a knowledge distillation method for the face detection task. This method decouples the distillation task of face detection into two subtasks, i.e., the classification distillation subtask and the regression distillation subtask. We add the task-specific convolutions in the teacher network and add the adaption convolutions on the feature maps of the student network to generate the task decoupled features. Then, each subtask uses different samples in distilling the features to be consistent with the corresponding detection subtask. Moreover, we propose an effective probability distillation method to joint boost the accuracy of the student network.
+
 ## WiderFace Val Performance in single scale.
 | Model | easy | medium | hard |
 |:-|:-:|:-:|:-:|
