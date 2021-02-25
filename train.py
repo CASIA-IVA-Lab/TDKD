@@ -14,7 +14,6 @@ import math
 from models.retinaface import RetinaFace
 from models.tdkd import TDKD
 from models.retinaface_width import RetinaFace as RetinaFaceWidth
-from test_widerface import load_model
 
 parser = argparse.ArgumentParser(description='Retinaface Training')
 parser.add_argument('--training_dataset', default='./data/widerface/train/label.txt', help='Training dataset directory')
@@ -30,7 +29,12 @@ parser.add_argument('--weight_decay', default=5e-4, type=float, help='Weight dec
 parser.add_argument('--gamma', default=0.1, type=float, help='Gamma update for SGD')
 parser.add_argument('--save_folder', default='./weights/', help='Location to save checkpoint models')
 parser.add_argument('--img_dim', default=640, help='Input shape when training')
+parser.add_argument('--mode', type=str, required=True, help='training mode: distillation/teacher/student')
+
+
+
 args = parser.parse_args()
+
 
 if not os.path.exists(args.save_folder):
     os.mkdir(args.save_folder)
@@ -49,8 +53,58 @@ max_epoch = args.max_epoch
 training_dataset = args.training_dataset
 save_folder = args.save_folder
 gpu_train = cfg['gpu_train']
+mode = args.mode
 
-net = RetinaFace()
+
+def check_keys(model, pretrained_state_dict):
+    ckpt_keys = set(pretrained_state_dict.keys())
+    model_keys = set(model.state_dict().keys())
+    used_pretrained_keys = model_keys & ckpt_keys
+    unused_pretrained_keys = ckpt_keys - model_keys
+    missing_keys = model_keys - ckpt_keys
+    print('Missing keys:{}'.format(len(missing_keys)))
+    print('Unused checkpoint keys:{}'.format(len(unused_pretrained_keys)))
+    print('Used keys:{}'.format(len(used_pretrained_keys)))
+    assert len(used_pretrained_keys) > 0, 'load NONE from pretrained checkpoint'
+    return True
+
+
+def remove_prefix(state_dict, prefix):
+    ''' Old style model is stored with all names of parameters sharing common prefix 'module.' '''
+    print('remove prefix \'{}\''.format(prefix))
+    f = lambda x: x.split(prefix, 1)[-1] if x.startswith(prefix) else x
+    return {f(key): value for key, value in state_dict.items()}
+
+
+def load_model(model, pretrained_path, load_to_cpu):
+    print('Loading pretrained model from {}'.format(pretrained_path))
+    if load_to_cpu:
+        pretrained_dict = torch.load(pretrained_path, map_location=lambda storage, loc: storage)
+    else:
+        device = torch.cuda.current_device()
+        pretrained_dict = torch.load(pretrained_path, map_location=lambda storage, loc: storage.cuda(device))
+    if "state_dict" in pretrained_dict.keys():
+        pretrained_dict = remove_prefix(pretrained_dict['state_dict'], 'module.')
+    else:
+        pretrained_dict = remove_prefix(pretrained_dict, 'module.')
+    check_keys(model, pretrained_dict)
+    model.load_state_dict(pretrained_dict, strict=False)
+    return model
+
+
+net = None
+if mode == 'teacher':
+    net = RetinaFaceWidth()
+    args.resume_net = None
+elif mode == 'student':
+    net = RetinaFace()
+    args.resume_net = None
+elif mode == 'distillation':
+    net = RetinaFace()
+else:
+    print("Input mode does not exit.")
+    exit()
+
 teacher_net = RetinaFaceWidth(phase='test')
 teacher_net = load_model(teacher_net, './Final_Retinaface_width.pth', False)
 
@@ -90,6 +144,7 @@ priorbox = PriorBox(cfg, image_size=(img_dim, img_dim))
 with torch.no_grad():
     priors, priors_by_layer = priorbox.forward()
     priors = priors.to(device)
+
 
 
 def train():
@@ -149,6 +204,13 @@ def train():
 
         scale = loss_l.detach() / feat_loss.detach()
         d_prob = 50
+
+
+        if mode == 'teacher' or mode == 'student':
+            d_feat = 0
+            d_prob = 0
+            scale = 0
+
 
         loss = cfg['loc_weight'] * loss_l + loss_c + loss_landm + d_feat * scale * feat_loss + d_prob * prob_loss
         loss.backward()
