@@ -53,8 +53,16 @@ git clone https://github.com/CASIA-IVA-Lab/TDKD.git
 ## Train
 1. In the code, we integrate the teacher model and the pre-trained model. So just run the following command to start distillation:
   ```Shell
-  CUDA_VISIBLE_DEVICES=0 python train.py
+  CUDA_VISIBLE_DEVICES=0 python train.py --mode distillation
   ```
+2. If you want to train the student network or the teacher network yourself, you can run the following command to start training:
+  ```Shell
+  #Train the student network
+  CUDA_VISIBLE_DEVICES=0 python train.py --mode student
+  #Train the teacher network
+  CUDA_VISIBLE_DEVICES=0 python train.py --mode teacher
+  ```
+
 
 ## Evaluation
 1. Generate the txt files of the result.
