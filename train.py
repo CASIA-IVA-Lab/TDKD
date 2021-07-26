@@ -202,7 +202,7 @@ def train():
 
         d_feat = 1.0
 
-        scale = loss_l.detach() / feat_loss.detach()
+        scale = 1 #loss_l.detach() / feat_loss.detach()
         d_prob = 50
 
 
