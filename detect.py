@@ -96,7 +96,7 @@ if __name__ == '__main__':
         print('net forward time: {:.4f}'.format(time.time() - tic))
 
         priorbox = PriorBox(cfg, image_size=(im_height, im_width))
-        priors = priorbox.forward()
+        priors = priorbox.forward()[0]
         priors = priors.to(device)
         prior_data = priors.data
         boxes = decode(loc.data.squeeze(0), prior_data, cfg['variance'])
